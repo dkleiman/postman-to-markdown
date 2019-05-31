@@ -2,9 +2,19 @@
 const fs = require('fs');
 const { resolve } = require('path');
 
-const [,, collectionPath] = process.argv;
+const [,, collectionPath, environmentPath] = process.argv;
 
 const collection = require(resolve(collectionPath));
+
+let environment = {};
+
+if (environmentPath) {
+  environment = require(resolve(environmentPath));
+  environment = environment.values.reduce((variableMap, variable) => {
+    variableMap[`{{${variable.key}}}`] = variable.value;
+    return variableMap;
+  }, {});
+}
 
 const docsPath = `${__dirname}/../docs`;
 
@@ -13,6 +23,12 @@ const upsertDir = (path) => {
     fs.mkdirSync(path);
   }
 };
+
+const template = (str) => {
+  return str.replace(/({{[^\}]*}})/g, (_, key) => {
+    return environment[key] || key;
+  });
+}
 
 const parseSubFolder = (subfolder, parentDir) => {
   const {
@@ -24,7 +40,7 @@ const parseSubFolder = (subfolder, parentDir) => {
   upsertDir(currentDir);
 
   const markdown = `# ${name}\n\n${description ? description : ''}`;
-  fs.writeFileSync(`${currentDir}/README.md`, markdown);
+  fs.writeFileSync(`${currentDir}/overview.md`, template(markdown));
 
   if (item && item.length) {
     walkItems(item, currentDir);
@@ -115,7 +131,7 @@ const parseRequest = (item, currentDir) => {
       markdown.push(`\`\`\`${r._postman_previewlanguage}\n${r.body}\n\`\`\``)
     });
   }
-  fs.writeFileSync(`${currentDir}/${name.toLowerCase().replace(/\s/g, '-')}.md`, markdown.join('\n'));
+  fs.writeFileSync(`${currentDir}/${name.toLowerCase().replace(/\s/g, '-')}.md`, template(markdown.join('\n')));
 };
 
 const walkItems = (item, currentDir, markdown = '') => {
@@ -144,6 +160,6 @@ upsertDir(currentDir);
 
 // Consider doing this at the end and adding a table of contents first
 const markdown = `# ${name}\n\n${description ? description : ''}`;
-fs.writeFileSync(`${currentDir}/README.md`, markdown);
+fs.writeFileSync(`${currentDir}/README.md`, template(markdown));
 
 walkItems(item, currentDir, markdown);
