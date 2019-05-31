@@ -87,12 +87,12 @@ const parseRequest = (item) => {
     `\`\`\`${method} ${raw}\`\`\`\n`,
   ];
 
-  if (query) {
+  if (query && query.length) {
     markdown.push(`### Parameters\n\nYou can include the following parameters in a search request.\n`)
     markdown.push(queryToTable(query));
   }
 
-  if (header) {
+  if (header && header.length) {
     markdown.push(`### Headers\n`);
     markdown.push(headersToMarkdown(header));
   }
