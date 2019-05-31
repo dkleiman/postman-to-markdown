@@ -20,11 +20,11 @@ const parseSubFolder = (subfolder, parentDir) => {
     description,
     item,
   } = subfolder;
-  const currentDir = `${parentDir}/${name}`;
+  const currentDir = `${parentDir}/${name.toLowerCase().replace(/\s/g, '-')}`;
   upsertDir(currentDir);
 
   const markdown = `# ${name}\n\n${description ? description : ''}`;
-  fs.writeFileSync(`${currentDir}/README.md`);
+  fs.writeFileSync(`${currentDir}/README.md`, markdown);
 
   if (item && item.length) {
     walkItems(item, currentDir);
@@ -83,10 +83,13 @@ const parseRequest = (item, currentDir) => {
     response,
   } = item;
   const markdown = [
-    `## ${name}`,
-    `${description}\n`,
+    `## ${name}\n`,
     `\`\`\`${method} ${raw}\`\`\`\n`,
   ];
+
+  if (description) {
+    markdown.push(`${description}\n`);
+  }
 
   if (query && query.length) {
     markdown.push(`### Parameters\n\nYou can include the following parameters in a search request.\n`)
@@ -112,8 +115,7 @@ const parseRequest = (item, currentDir) => {
       markdown.push(`\`\`\`${r._postman_previewlanguage}\n${r.body}\n\`\`\``)
     });
   }
-  markdown.join('\n');
-  fs.writeFileSync(`${currentDir}/${name}.md`, markdown);
+  fs.writeFileSync(`${currentDir}/${name.toLowerCase().replace(/\s/g, '-')}.md`, markdown.join('\n'));
 };
 
 const walkItems = (item, currentDir, markdown = '') => {
