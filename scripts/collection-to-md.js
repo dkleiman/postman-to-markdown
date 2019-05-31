@@ -24,9 +24,10 @@ const parseSubFolder = (subfolder, parentDir) => {
   upsertDir(currentDir);
 
   const markdown = `# ${name}\n\n${description ? description : ''}`;
+  fs.writeFileSync(`${currentDir}/README.md`);
 
   if (item && item.length) {
-    walkItems(item, currentDir, markdown);
+    walkItems(item, currentDir);
   }
 };
 
@@ -66,7 +67,7 @@ const headersToMarkdown = (headers) => {
   return markdown.join('\n');
 };
 
-const parseRequest = (item) => {
+const parseRequest = (item, currentDir) => {
   const {
     request: {
       method,
@@ -111,7 +112,8 @@ const parseRequest = (item) => {
       markdown.push(`\`\`\`${r._postman_previewlanguage}\n${r.body}\n\`\`\``)
     });
   }
-  return markdown.join('\n');
+  markdown.join('\n');
+  fs.writeFileSync(`${currentDir}/${name}.md`, markdown);
 };
 
 const walkItems = (item, currentDir, markdown = '') => {
@@ -121,10 +123,8 @@ const walkItems = (item, currentDir, markdown = '') => {
       return;
     }
 
-    markdown += `\n\n${parseRequest(i)}`;
+    parseRequest(i, currentDir);
   });
-
-  fs.writeFileSync(`${currentDir}/DESCRIPTION.md`, markdown);
 };
 
 // Top level object has the info key 
@@ -142,4 +142,6 @@ upsertDir(currentDir);
 
 // Consider doing this at the end and adding a table of contents first
 const markdown = `# ${name}\n\n${description ? description : ''}`;
+fs.writeFileSync(`${currentDir}/README.md`, markdown);
+
 walkItems(item, currentDir, markdown);
