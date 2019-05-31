@@ -83,7 +83,7 @@ const parseRequest = (item) => {
   } = item;
   const markdown = [
     `## ${name}`,
-    `${description}`,
+    `${description}\n`,
     `\`\`\`${method} ${raw}\`\`\`\n`,
   ];
 
@@ -106,7 +106,7 @@ const parseRequest = (item) => {
   if (response && response.length) {
     markdown.push(`### Example Responses\n`);
     response.forEach((r) => {
-      markdown.push(`${r.name}`);
+      markdown.push(`${r.name}\n`);
       markdown.push(`${r.code}: ${r.status}`);
       markdown.push(`\`\`\`${r._postman_previewlanguage}\n${r.body}\n\`\`\``)
     });

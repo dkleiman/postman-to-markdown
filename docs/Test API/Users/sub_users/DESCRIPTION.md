@@ -4,6 +4,7 @@
 
 ## sub_user
 `Check this out`
+
 ```GET ```
 
 ### Headers

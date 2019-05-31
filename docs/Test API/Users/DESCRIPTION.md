@@ -4,6 +4,7 @@ Users use your product.
 
 ## Get All Users
 This endpoint is used to retrieve a list of all users.
+
 ```GET https://copper.com/users?test=test_value```
 
 ### Parameters
@@ -29,6 +30,7 @@ Content-Type | application/json | undefined | text
 ### Example Responses
 
 Fail to get users
+
 500: Internal Server Error
 ```json
 {
@@ -36,6 +38,7 @@ Fail to get users
 }
 ```
 Get All Users
+
 undefined: undefined
 ```json
 {
@@ -45,6 +48,7 @@ undefined: undefined
 
 ## Create User
 This is how you create a `user`.
+
 ```POST https://copper.com/users```
 
 ### Headers
