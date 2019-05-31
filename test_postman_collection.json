@@ -1,0 +1,188 @@
+{
+	"info": {
+		"_postman_id": "683d310e-7131-4c70-a1a4-cd17d2718f19",
+		"name": "Test API",
+		"description": "# Section 1\n\nI'm writing some docs here so that I can figure out how to sync with `md` files.\n\n# Section 2\n\nHere is a table\n\nMarkdown | Less | Pretty\n--- | --- | ---\n*Still* | `renders` | **nicely**\n1 | 2 | 3",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "sub_users",
+					"item": [
+						{
+							"name": "sub_user",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": ""
+								},
+								"description": "`Check this out`"
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Get All Users",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "123456",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "api_key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "test_header",
+								"value": "test",
+								"description": "this is a test header",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"test a\": \"body\"\n}"
+						},
+						"url": {
+							"raw": "https://copper.com/users?test=test_value",
+							"protocol": "https",
+							"host": [
+								"copper",
+								"com"
+							],
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "test",
+									"value": "test_value",
+									"description": "Does this support `markdown`?"
+								}
+							]
+						},
+						"description": "This endpoint is used to retrieve a list of all users."
+					},
+					"response": [
+						{
+							"name": "Fail to get users",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://copper.com/users?test=test_value",
+									"protocol": "https",
+									"host": [
+										"copper",
+										"com"
+									],
+									"path": [
+										"users"
+									],
+									"query": [
+										{
+											"key": "test",
+											"value": "test_value",
+											"description": "Does this support `markdown`?"
+										}
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n\t\"failed\": \"yup\"\n}"
+						},
+						{
+							"name": "Get All Users",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://copper.com/users?test=test_value",
+									"protocol": "https",
+									"host": [
+										"copper",
+										"com"
+									],
+									"path": [
+										"users"
+									],
+									"query": [
+										{
+											"key": "test",
+											"value": "test_value",
+											"description": "Does this support `markdown`?"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n\t\"this\": \"is what came back\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"some\": \"raw json\"\n}"
+						},
+						"url": {
+							"raw": "https://copper.com/users",
+							"protocol": "https",
+							"host": [
+								"copper",
+								"com"
+							],
+							"path": [
+								"users"
+							]
+						},
+						"description": "This is how you create a `user`."
+					},
+					"response": []
+				}
+			],
+			"description": "Users use your product."
+		}
+	]
+}
