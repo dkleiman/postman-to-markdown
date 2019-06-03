@@ -39,7 +39,7 @@ const parseSubFolder = (subfolder, parentDir) => {
   const currentDir = `${parentDir}/${name.toLowerCase().replace(/\s/g, '-')}`;
   upsertDir(currentDir);
 
-  const markdown = `# ${name}\n\n${description ? description : ''}`;
+  const markdown = `# ${name}\n\n${description || ''}`;
   fs.writeFileSync(`${currentDir}/overview.md`, template(markdown));
 
   if (item && item.length) {
@@ -59,7 +59,7 @@ const queryToTable = (query) => {
       value,
       description,
     } = q;
-    markdown.push(`${key} | ${value} | ${description}`);
+    markdown.push(`${key || ''} | ${value || ''} | ${description || ''}`);
   });
 
   return markdown.join('\n');
@@ -77,7 +77,7 @@ const headersToMarkdown = (headers) => {
       description,
       type,
     } = header;
-    markdown.push(`${key} | ${value} | ${description} | ${type}`);
+    markdown.push(`${key || ''} | ${value || ''} | ${description || ''} | ${type || ''}`);
   });
 
   return markdown.join('\n');
@@ -159,7 +159,7 @@ const currentDir = `${docsPath}/${name}`;
 upsertDir(currentDir);
 
 // Consider doing this at the end and adding a table of contents first
-const markdown = `# ${name}\n\n${description ? description : ''}`;
+const markdown = `# ${name}\n\n${description || ''}`;
 fs.writeFileSync(`${currentDir}/README.md`, template(markdown));
 
 walkItems(item, currentDir, markdown);
